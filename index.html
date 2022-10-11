@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>swipeable button</title>
+    <style>
+        *{box-sizing: border-box}
+        #drag-area{
+            display:block;
+            border: 1px solid black;
+            height: 50px;
+            width: 200px;
+            position: relative;
+        }
+
+        #drag-indicator{
+            display: block;
+            height: 100%;
+            width: 50px;
+            background: blue;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>swipeable button POC</h1>
+
+    <br><br><br><br>
+    
+
+    <div id="drag-area">
+        <div id="drag-indicator">
+            
+        </div>
+    </div>
+
+
+
+
+    <script>
+            const dragArea = document.getElementById('drag-area');
+            const dragIndicator = document.getElementById('drag-indicator');
+            let dragConfig = {
+                dragEnabled: false
+            };
+
+            console.log(dragArea.offsetWidth)
+
+            //MOUSE SUPPORT
+            dragArea.addEventListener('mousemove', function (e) {
+                if (!dragConfig.dragEnabled) {
+                    return 0;
+                }
+                // is subtracting 25 to center the cursor
+                const xPos = e.clientX - 25;
+                console.log(xPos)
+                //is 148 because is subtracting 2px of border
+                if (xPos < 0 || xPos > 148) {
+                    return 0;
+
+                }
+                dragIndicator.style.left = `${xPos}px`;
+                if (xPos == 148) {
+                    console.log('success')
+                    return 0;
+                }
+            })
+
+            dragArea.addEventListener('mousedown', function (e) {
+                dragConfig.dragEnabled = true
+            })
+
+            dragArea.addEventListener('mouseup', function (e) {
+                dragConfig.dragEnabled = false
+                dragIndicator.style.left = `${0}px`;
+
+            })
+
+
+
+            //TOUCH SUPPORT
+            dragArea.addEventListener('touchmove', function (e) {
+                if (!dragConfig.dragEnabled) {
+                    return 0;
+                }
+                // is subtracting 25 to center the cursor
+                const xPos = e.touches[0].clientX - 25;
+                console.log(xPos)
+                //is 148 because is subtracting 2px of border
+                if (xPos < 0 || xPos > 148) {
+                    return 0;
+
+                }
+                dragIndicator.style.left = `${xPos}px`;
+                if (xPos == 148) {
+                    console.log('success')
+                    return 0;
+                }
+            })
+
+            dragArea.addEventListener('touchstart', function (e) {
+                dragConfig.dragEnabled = true
+            })
+
+            dragArea.addEventListener('touchend', function (e) {
+                dragConfig.dragEnabled = false
+                dragIndicator.style.left = `${0}px`;
+
+            })
+
+
+    </script>
+</body>
+</html>
